@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Cumpleaños Rebeca Belito ♏✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;800&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <!-- Three.js y OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+  <!-- Canvas global para estrellas fugaces, chispas y confeti de cumpleaños -->
+  <canvas id="bg-fx-canvas"></canvas>
+
+  <!-- Controles superiores -->
+  <div class="top-controls">
+    <button id="btn-music" class="circle-btn" title="Música">🔇</button>
+    <button id="btn-reset-cam" class="circle-btn hidden" title="Centrar galaxia">♏</button>
+  </div>
+
+  <!-- PANTALLA 1: SELLO DE INICIO ESCORPIO -->
+  <section id="screen-intro" class="screen active">
+    <div class="intro-content">
+      <!-- Sello Místico de Escorpio Animado -->
+      <div class="scorpio-seal-container">
+        <div class="seal-ring outer-ring"></div>
+        <div class="seal-ring inner-ring"></div>
+        <svg viewBox="0 0 200 200" class="scorpio-svg">
+          <!-- Constelación de Escorpio -->
+          <polyline points="45,55 62,42 78,62 95,85 108,112 115,138 135,152 155,145 162,126 150,118"
+                    fill="none" stroke="#ff2a85" stroke-width="2.2" stroke-dasharray="4 3" class="constellation-line"/>
+          <!-- Estrellas de la constelación (incluyendo Antares) -->
+          <circle cx="45" cy="55" r="3" fill="#00f3ff"/>
+          <circle cx="62" cy="42" r="3.5" fill="#00f3ff"/>
+          <circle cx="78" cy="62" r="3" fill="#00f3ff"/>
+          <circle cx="95" cy="85" r="5.5" fill="#ff2a85" class="antares-star"/>
+          <circle cx="108" cy="112" r="3" fill="#ffffff"/>
+          <circle cx="115" cy="138" r="3" fill="#ffffff"/>
+          <circle cx="135" cy="152" r="3.5" fill="#00f3ff"/>
+          <circle cx="155" cy="145" r="3.5" fill="#00f3ff"/>
+          <circle cx="162" cy="126" r="4" fill="#ff2a85"/>
+          <circle cx="150" cy="118" r="3" fill="#ffe600"/>
+          <!-- Símbolo central ♏ -->
+          <text x="100" y="108" text-anchor="middle" class="scorpio-glyph">♏</text>
+        </svg>
+      </div>
+
+      <p class="eyebrow-tag">✦ EDICIÓN ESPECIAL • REINA ESCORPIO ✦</p>
+      <h1 class="neon-cyan-title">Feliz Cumpleaños,<br><span>Rebeca Belito</span></h1>
+      <p class="subtitle">UN UNIVERSO HECHO A TU MEDIDA CON TODO MI AMOR</p>
+      
+      <button id="btn-empezar" class="neon-btn">
+        <span>✨ ABRIR MI REGALO ✨</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- TRANSICIÓN EXPLOSIVA DE CUMPLEAÑOS (FLASH + CONFETI) -->
+  <div id="portal-flash" class="portal-flash"></div>
+
+  <!-- PANTALLA 2: PASTEL NEÓN Y DEDICATORIA DE CUMPLEAÑOS -->
+  <section id="screen-cake" class="screen">
+    <canvas id="fireworks-canvas"></canvas>
+    <div class="cake-stage">
+      <div class="bday-badge">🎂 ¡HOY CELEBRAMOS TU VIDA! ♏</div>
+      <h2 class="script-title">Happy Birthday, Mi Amor</h2>
+
+      <!-- Pastel Neón SVG Animado -->
+      <div class="cake-wrapper">
+        <div class="sparklers">
+          <div class="sparkler s1"></div>
+          <div class="sparkler s2"></div>
+          <div class="sparkler s3"></div>
+        </div>
+        <svg viewBox="0 0 300 260" class="neon-cake-svg">
+          <ellipse cx="150" cy="235" rx="125" ry="16" fill="none" stroke="#00f3ff" stroke-width="3" />
+          <rect x="55" y="175" width="190" height="55" rx="10" fill="#180424" stroke="#ff007f" stroke-width="3" />
+          <path d="M55 190 Q80 210 102 190 Q125 210 150 190 Q175 210 198 190 Q220 210 245 190" fill="none" stroke="#00f3ff" stroke-width="2.5"/>
+          <rect x="80" y="125" width="140" height="50" rx="8" fill="#180424" stroke="#b829ff" stroke-width="3" />
+          <path d="M80 140 Q103 158 126 140 Q150 158 174 140 Q197 158 220 140" fill="none" stroke="#00f3ff" stroke-width="2.5"/>
+          <rect x="105" y="80" width="90" height="45" rx="8" fill="#180424" stroke="#ff007f" stroke-width="3" />
+          <path d="M105 94 Q127 108 150 94 Q173 108 195 94" fill="none" stroke="#ffe600" stroke-width="2.5"/>
+          <rect x="122" y="55" width="6" height="25" rx="2" fill="#00f3ff" />
+          <rect x="147" y="50" width="6" height="30" rx="2" fill="#ff007f" />
+          <rect x="172" y="55" width="6" height="25" rx="2" fill="#00f3ff" />
+          <circle cx="125" cy="48" r="5" fill="#ffe600" class="flame" />
+          <circle cx="150" cy="43" r="6" fill="#ffe600" class="flame" />
+          <circle cx="175" cy="48" r="5" fill="#ffe600" class="flame" />
+        </svg>
+      </div>
+
+      <p class="love-quote">
+        Con esa magia intensa y tierna tan tuya de <strong>Escorpio</strong>, iluminas cada rincón de mi mundo. 💖<br>
+        Hoy no solo celebro tu cumpleaños, celebro la suerte inmensa de tenerte en mi vida, <strong>Rebeca</strong>.
+      </p>
+      <p class="universe-hint">✦ TOCA PARA VIAJAR A NUESTRA GALAXIA ✦</p>
+      <button id="btn-iniciar-galaxia" class="neon-btn">ENTRAR AL UNIVERSO ♏</button>
+    </div>
+  </section>
+
+  <!-- PANTALLA 3: GALAXIA 3D ESCORPIO -->
+  <section id="screen-galaxy" class="screen">
+    <div class="galaxy-header">
+      <h2>FELIZ CUMPLEAÑOS REBECA BELITO ♏🎂</h2>
+      <p class="drag-tip">Gira con tu dedo • Haz zoom • Toca las esferas brillantes para leer tus cartas</p>
+    </div>
+    <div id="three-container"></div>
+  </section>
+
+  <!-- MODAL PARA LAS CARTAS / RECUERDOS -->
+  <div id="memory-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-badge">♏ CARTA ESTELAR PARA REBECA</div>
+      <div class="modal-image-frame">
+        <img id="modal-img" src="" alt="Recuerdo especial" />
+      </div>
+      <h3 id="modal-title">Título del recuerdo</h3>
+      <p id="modal-text">Mensaje dedicado...</p>
+      <button id="btn-close-modal" class="close-pill-btn">SEGUIR EXPLORANDO ✨</button>
+    </div>
+  </div>
+
+  <!-- Audio opcional (coloca musica.mp3 en la carpeta si quieres tu propia canción) -->
+  <audio id="bg-audio" src="musica.mp3" preload="auto" loop></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
