@@ -42,7 +42,7 @@ const FRASES_ORBITA = [
 ];
 
 // =========================================================================
-// 2. SISTEMA DE MÚSICA (ARREGLADO PARA SONAR AL PULSAR EL BOTÓN)
+// 2. SISTEMA DE MÚSICA (MP3 REAL O CAJITA MUSICAL AUTOMÁTICA)
 // =========================================================================
 let audioCtx = null;
 let isPlayingMusic = false;
@@ -154,7 +154,6 @@ function resizeBgCanvas() {
 resizeBgCanvas();
 window.addEventListener("resize", resizeBgCanvas);
 
-// Crear explosión de confeti de cumpleaños
 function launchBirthdayConfetti(amount = 110) {
   const palette = ["#ff2a85", "#00f3ff", "#ffd700", "#b829ff", "#ffffff"];
   for (let i = 0; i < amount; i++) {
@@ -174,7 +173,6 @@ function launchBirthdayConfetti(amount = 110) {
   }
 }
 
-// Estrellas fugaces suaves en la pantalla de inicio
 setInterval(() => {
   if (document.getElementById("screen-intro").classList.contains("active")) {
     shootingStars.push({
@@ -191,7 +189,6 @@ setInterval(() => {
 function animateGlobalFX() {
   bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
-  // Estrellas fugaces
   for (let i = shootingStars.length - 1; i >= 0; i--) {
     const s = shootingStars[i];
     s.x += s.vx;
@@ -211,12 +208,11 @@ function animateGlobalFX() {
     bgCtx.restore();
   }
 
-  // Confeti de cumpleaños
   for (let i = confettiPieces.length - 1; i >= 0; i--) {
     const c = confettiPieces[i];
     c.x += c.vx;
     c.y += c.vy;
-    c.vy += 0.16; // gravedad suave
+    c.vy += 0.16;
     c.vx *= 0.98;
     c.rotation += c.rotSpeed;
     c.alpha -= 0.009;
@@ -249,10 +245,7 @@ const portalFlash = document.getElementById("portal-flash");
 btnMusic.addEventListener("click", toggleMusic);
 
 document.getElementById("btn-empezar").addEventListener("click", () => {
-  // 1. Arrancar música al instante
   startMusic();
-
-  // 2. Destello de portal + explosión de confeti de cumpleaños
   portalFlash.classList.add("active");
   launchBirthdayConfetti(140);
 
@@ -278,7 +271,6 @@ document.getElementById("btn-iniciar-galaxia").addEventListener("click", () => {
   }, 380);
 });
 
-// Fuegos artificiales en Pantalla 2
 function startFireworks() {
   const canvas = document.getElementById("fireworks-canvas");
   const ctx = canvas.getContext("2d");
@@ -338,7 +330,7 @@ function startFireworks() {
 }
 
 // =========================================================================
-// 5. GALAXIA 3D EN THREE.JS CON CONSTELACIÓN DE ESCORPIO Y CARTAS
+// 5. GALAXIA 3D EN THREE.JS (SOPORTE TÁCTIL / CELULAR CORREGIDO)
 // =========================================================================
 function initGalaxy3D() {
   const container = document.getElementById("three-container");
@@ -369,7 +361,7 @@ function initGalaxy3D() {
   pointLight.position.set(0, 8, 0);
   scene.add(pointLight);
 
-  // --- A. ESPIRAL DE PARTÍCULAS (TONOS ESCORPIO: CARMESÍ, VIOLETA Y CIAN) ---
+  // --- A. ESPIRAL DE PARTÍCULAS ---
   const galaxyGroup = new THREE.Group();
   scene.add(galaxyGroup);
 
@@ -504,7 +496,7 @@ function initGalaxy3D() {
     galaxyGroup.add(sprite);
   });
 
-  // --- D. ESFERAS CON FOTOS CLICABLES ---
+  // --- D. ESFERAS CON FOTOS CLICABLES + ÁREA TÁCTIL AMPLIADA PARA CELULAR ---
   const clickableSpheres = [];
   const textureLoader = new THREE.TextureLoader();
 
@@ -526,27 +518,36 @@ function initGalaxy3D() {
     const photoGeo = new THREE.CircleGeometry(1.18, 32);
     const photoMat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide });
     const photoMesh = new THREE.Mesh(photoGeo, photoMat);
-    photoMesh.userData = { recuerdo };
 
-    holder.add(halo, photoMesh);
+    // Hitbox invisible más grande para que sea súper fácil tocarla con el dedo en celular
+    const hitGeo = new THREE.SphereGeometry(1.75, 16, 16);
+    const hitMat = new THREE.MeshBasicMaterial({ visible: false });
+    const hitMesh = new THREE.Mesh(hitGeo, hitMat);
+    hitMesh.userData = { recuerdo };
+
+    holder.add(halo, photoMesh, hitMesh);
     galaxyGroup.add(holder);
-    clickableSpheres.push({ holder, photoMesh });
+    clickableSpheres.push({ holder, hitMesh });
   });
 
-  // --- E. INTERACCIÓN (CLIC EN FOTOS + CONFETI AL ABRIR CARTA) ---
+  // --- E. INTERACCIÓN TÁCTIL Y CLIC (FUNCIONA EN CELULAR Y PC) ---
   const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
+  const pointer = new THREE.Vector2();
   const modal = document.getElementById("memory-modal");
 
-  function onPointerClick(event) {
+  let downX = 0;
+  let downY = 0;
+  let downTime = 0;
+
+  function checkSphereHit(clientX, clientY) {
     if (!modal.classList.contains("hidden")) return;
     const rect = renderer.domElement.getBoundingClientRect();
-    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1;
 
-    raycaster.setFromCamera(mouse, camera);
-    const targets = clickableSpheres.map(item => item.photoMesh);
-    const intersects = raycaster.intersectObjects(targets);
+    raycaster.setFromCamera(pointer, camera);
+    const targets = clickableSpheres.map(item => item.hitMesh);
+    const intersects = raycaster.intersectObjects(targets, false);
 
     if (intersects.length > 0) {
       const data = intersects[0].object.userData.recuerdo;
@@ -554,11 +555,38 @@ function initGalaxy3D() {
       document.getElementById("modal-title").textContent = data.titulo;
       document.getElementById("modal-text").textContent = data.mensaje;
       modal.classList.remove("hidden");
-      launchBirthdayConfetti(60); // Lanza chispitas al abrir cada carta
+      launchBirthdayConfetti(60);
     }
   }
 
-  renderer.domElement.addEventListener("click", onPointerClick);
+  // Capturar inicio de toque o clic
+  renderer.domElement.addEventListener("pointerdown", (e) => {
+    downX = e.clientX;
+    downY = e.clientY;
+    downTime = Date.now();
+  }, { passive: true });
+
+  // Capturar fin de toque o clic (si el dedo no se arrastró demasiado, abre la esfera)
+  renderer.domElement.addEventListener("pointerup", (e) => {
+    const dist = Math.hypot(e.clientX - downX, e.clientY - downY);
+    const elapsed = Date.now() - downTime;
+    if (dist < 18 && elapsed < 500) {
+      checkSphereHit(e.clientX, e.clientY);
+    }
+  });
+
+  // Respaldo específico para navegadores móviles antiguos (iOS Safari / Android WebView)
+  renderer.domElement.addEventListener("touchend", (e) => {
+    if (e.changedTouches && e.changedTouches.length > 0) {
+      const t = e.changedTouches[0];
+      const dist = Math.hypot(t.clientX - downX, t.clientY - downY);
+      const elapsed = Date.now() - downTime;
+      if (dist < 18 && elapsed < 500) {
+        checkSphereHit(t.clientX, t.clientY);
+      }
+    }
+  }, { passive: true });
+
   document.getElementById("btn-close-modal").addEventListener("click", () => {
     modal.classList.add("hidden");
   });
