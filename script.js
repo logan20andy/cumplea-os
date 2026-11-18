@@ -6,27 +6,27 @@ const RECUERDOS_REBECA = [
   {
     titulo: "MI ESTRELLA ANTARES EN EL UNIVERSO ♏",
     mensaje: "Dicen que Antares es el corazón brillante de la constelación de Escorpio, pero para mí el corazón más hermoso y luminoso del universo eres tú, mi querida Rebeca. ¡Feliz cumpleaños!",
-    img: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80"
+    img: "img/img 01.jpg"
   },
   {
     titulo: "TU MAGIA ÚNICA DE ESCORPIO ✨",
     mensaje: "Amo esa mezcla perfecta que tienes: tan intensa, leal, inteligente y a la vez tan tierna y dulce conmigo. No hay nadie en este mundo como tú, Rebeca Belito.",
-    img: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80"
+    img: "img/img 02.jpg"
   },
   {
     titulo: "¡QUE SE CUMPLAN TODOS TUS SUEÑOS! 🎂",
     mensaje: "Hoy brindo por tu sonrisa, por tus metas y por cada aventura que nos espera juntos. Que la vida te devuelva multiplicado todo el amor bonito que das.",
-    img: "https://images.unsplash.com/photo-1464349153735-7db50ed83c84?auto=format&fit=crop&w=800&q=80"
+    img: "img/img 03.jpg"
   },
   {
     titulo: "MI PERSONA FAVORITA EN EL MUNDO 💖",
     mensaje: "Si volviera a nacer y tuviera que elegir entre millones de estrellas, te volvería a elegir a ti mil veces más. Gracias por hacerme tan feliz cada día.",
-    img: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80"
+    img: "img/img 04.jpg" 
   },
   {
     titulo: "POR MUCHOS CUMPLEAÑOS MÁS A TU LADO 🥂",
     mensaje: "Disfruta tu día como la reina que eres. Aquí estoy y estaré siempre para cuidarte, engreírte y celebrar cada uno de tus triunfos. ¡Te amo muchísimo!",
-    img: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=800&q=80"
+    img: "img/img 05.jpg"
   }
 ];
 
